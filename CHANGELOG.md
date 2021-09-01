@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.25.1"></a>
+
+## [3.25.1](https://github.com/fjc0k/yapi-to-typescript/compare/v3.25.0...v3.25.1) (2021-09-01)
+
 <a name="3.25.0"></a>
 
 # [3.25.0](https://github.com/fjc0k/yapi-to-typescript/compare/v3.24.3...v3.25.0) (2021-09-01)
