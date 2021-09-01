@@ -390,7 +390,7 @@ export class Generator {
             await fs.outputFile(
               requestFunctionFilePath,
               dedent`
-                import { RequestFunctionParams } from 'yapi-to-typescript'
+                import { RequestFunctionParams } from 'ytt-rui'
 
                 export interface RequestOptions {
                   /**
@@ -437,7 +437,7 @@ export class Generator {
               requestHookMakerFilePath,
               dedent`
                 import { useState, useEffect } from 'react'
-                import { RequestConfig } from 'yapi-to-typescript'
+                import { RequestConfig } from 'ytt-rui'
                 import { Request } from ${JSON.stringify(
                   getNormalizedRelativePath(
                     requestHookMakerFilePath,
@@ -497,7 +497,7 @@ export class Generator {
               : dedent`
                 // @ts-ignore
                 // prettier-ignore
-                import { Method, RequestBodyType, ResponseBodyType, RequestConfig, RequestFunctionRestArgs, FileData, prepare } from 'yapi-to-typescript'
+                import { Method, RequestBodyType, ResponseBodyType, RequestConfig, RequestFunctionRestArgs, FileData, prepare } from 'ytt-rui'
                 // @ts-ignore
                 import request from ${JSON.stringify(
                   getNormalizedRelativePath(
