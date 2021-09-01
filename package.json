@@ -32,6 +32,8 @@
     "lib"
   ],
   "scripts": {
+    "run": "node lib/cjs/cli.js",
+    "buildAndRun": "haoma compile && node lib/cjs/cli.js",
     "build": "haoma compile",
     "docs:dev": "dumi dev",
     "docs:build": "dumi build",

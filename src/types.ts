@@ -247,6 +247,7 @@ export interface Interface {
   add_time: number
   /** 更新时间（unix时间戳） */
   up_time: number
+  duplicate: boolean
   [key: string]: any
 }
 

@@ -41,7 +41,11 @@ import {
   sortByWeights,
   throwError,
 } from './utils'
+import { inspect } from 'util'
 import { SwaggerToYApiServer } from './SwaggerToYApiServer'
+
+const MyLog = (...args: any[]) =>
+  false && console.log(...args.map(item => inspect(item, { depth: 5 })))
 
 interface OutputFileList {
   [outputFilePath: string]: {
@@ -88,6 +92,7 @@ export class Generator {
   }
 
   async generate(): Promise<OutputFileList> {
+    MyLog('test this config', this.config)
     const outputFileList: OutputFileList = Object.create(null)
 
     await Promise.all(
@@ -104,12 +109,15 @@ export class Generator {
           },
           [],
         )
+
+        MyLog('test this projects', projects)
         return Promise.all(
           projects.map(async (projectConfig, projectIndex) => {
             const projectInfo = await this.fetchProjectInfo({
               ...serverConfig,
               ...projectConfig,
             })
+            MyLog('test this projectsInfo', projectInfo)
             await Promise.all(
               projectConfig.categories.map(
                 async (categoryConfig, categoryIndex) => {
@@ -194,8 +202,26 @@ export class Generator {
                           .filter(Boolean) as any
                         interfaceList.sort((a, b) => a._id - b._id)
 
+                        const duplicationRecord: Record<string, boolean> = {}
+                        const interfaceInfos = await Promise.all(interfaceList)
+                        const markedInterfaceInfos = interfaceInfos
+                          .map(item => {
+                            const parsed = path.parse(item.path)
+                            const name = parsed.name
+                            duplicationRecord[name] = name in duplicationRecord
+                            return item
+                          })
+                          .map(item => {
+                            const parsed = path.parse(item.path)
+                            const name = parsed.name
+                            return {
+                              ...item,
+                              duplicate: duplicationRecord[name],
+                            }
+                          })
+                        MyLog('duplicationRecord ', markedInterfaceInfos)
                         const interfaceCodes = await Promise.all(
-                          interfaceList.map<
+                          markedInterfaceInfos.map<
                             Promise<{
                               categoryUID: string
                               outputFilePath: string
@@ -677,6 +703,7 @@ export class Generator {
       ...interfaceInfo,
       parsedPath: path.parse(interfaceInfo.path),
     }
+    MyLog('extend', extendedInterfaceInfo)
     const requestFunctionName = isFunction(
       syntheticalConfig.getRequestFunctionName,
     )
